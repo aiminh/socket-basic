@@ -18,7 +18,9 @@ io.on('connection', function(socket){
 	socket.on('message', function(message){
 		console.log('Messaged received:'+ message.text);
 	
-		socket.broadcast.emit('message', message)   //send to every browser connected to server except myself
+		//socket.broadcast.emit('message', message)   //send to every browser connected to server except myself
+		io.emit('message', message)   //send to every browser connected to server
+
 	});
 
 	socket.emit('message', {
