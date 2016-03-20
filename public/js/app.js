@@ -1,18 +1,4 @@
-// var socket = io();
 
-// socket.on('connect', function(){
-// 	console.log('connected to socket.io server!');
-// 		console.log('2');
-
-
-// });
-
-
-// socket.on('message', function(message){
-// 	console.log('new message: ');
-// 	console.log(message.text);
-
-// });
 
 var socket = io();
 
@@ -24,4 +10,20 @@ socket.on('connect', function () {
 socket.on('message', function (message) {
 	console.log('New message:');
 	console.log(message.text);
+});
+
+//handles submitting of new messages
+
+var $form = jQuery('#message-form');
+
+$form.on('submit', function(event){
+	event.preventDefault(); //no freshing entire page
+
+	var $message = $form.find('input[name=message]');
+
+	socket.emit('message', {
+		text: $message.val()
+	});
+
+	$message.val('');
 });
