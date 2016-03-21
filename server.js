@@ -26,11 +26,13 @@ io.on('connection', function(socket){
 		//socket.broadcast.emit('message', message)   //send to every browser connected to server except myself
 		
 		message.timeStamp = moment().valueOf();
+
 		io.emit('message', message)   //send to every browser connected to server
 
 	});
 
 	socket.emit('message', {
+		name: 'System',
 		text: 'Welcome to the chat application!',
 		timeStamp: moment().valueOf()
 	});
