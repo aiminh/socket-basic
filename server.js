@@ -5,11 +5,15 @@ var app = express();
 var http = require('http').Server(app);
 
 var io = require('socket.io')(http);
+var moment = require('moment');
 
 
 
 app.use(express.static(__dirname + '/public') );
 
+	var now = moment();
+
+	var momentTimeStamp =  now.valueOf();
 
 
 io.on('connection', function(socket){
@@ -17,14 +21,18 @@ io.on('connection', function(socket){
 
 	socket.on('message', function(message){
 		console.log('Messaged received:'+ message.text);
-	
+		//console.log('Messaged received:'+ message.timeStamp);
+
 		//socket.broadcast.emit('message', message)   //send to every browser connected to server except myself
+		
+		message.timeStamp = moment().valueOf();
 		io.emit('message', message)   //send to every browser connected to server
 
 	});
 
 	socket.emit('message', {
-		text: 'Welcome to the chat application!'
+		text: 'Welcome to the chat application!',
+		timeStamp: moment().valueOf()
 	});
 
 });
