@@ -25,12 +25,14 @@ socket.on('message', function(message) {  //when receive event from server, mess
 
 	var momentTimeStamp = moment.utc(message.timeStamp);
 
-	var $message = jQuery('.messages'); //$ means it is jQuery selector 
+	var $messages = jQuery('.messages'); //$ means it is jQuery selector 
+	var $message = jQuery('<li class="list-group-item"></li>');
+
 
 	$message.append('<p><strong>' + message.name + ' ' + momentTimeStamp.local().format('h:mm a') + '</strong></p>');
-	$message.append('<p>' + message.text + '</p>');
+	$message.append('<p>' + message.text + '</p>'); //add <p></p> inside <li></li>
 
-
+	$messages.append($message); //add <li>..</li> inside <ul>..</ul>
 });
 
 //handles submitting of new messages
