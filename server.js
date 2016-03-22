@@ -16,9 +16,29 @@ var now = moment();
 var momentTimeStamp = now.valueOf();
 
 
-io.on('connection', function(socket) {
-	
+io.on('connection', function(socket) {   //built-in method
+
 	console.log('User connected via socket.io!');
+
+	socket.on('disconnect', function(){  //built-in method
+
+		var userData = clientInfo[socket.id];
+		
+		if (typeof userData !== 'undefined' ) {
+			
+			socket.leave(userData.room);
+
+			io.to(userData.room).emit('message', {
+				name:'System',
+				text: userData.name + ' has left!',
+				timeStamp: moment().valueOf()
+			});
+		
+			delete clientInfo[socket.id];
+		}
+	});
+
+
 
 	socket.on('joinRoom', function(req) { //req is the obj {name, room} created in joinRoom event in app.js
 
